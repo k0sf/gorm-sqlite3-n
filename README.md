@@ -2,6 +2,14 @@
 
 SQLCipher、wxSQLite3
 
+
+## Install
+
+```shell
+go get github.com/YGoldking/gorm-sqlite3-n
+```
+
+
 ## wxSQLite3 ([to](https://github.com/Jathon-yang/go-wxsqlite3))
 
 ps: 默认为AES128加密
