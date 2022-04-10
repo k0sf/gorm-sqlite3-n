@@ -2,7 +2,7 @@
 
 SQLCipher、wxSQLite3
 
-## wxSQLite3
+## wxSQLite3 ([to](https://github.com/Jathon-yang/go-wxsqlite3))
 
 ps: 默认为AES128加密
 
@@ -43,7 +43,7 @@ func main() {
 
 ```
 
-## SQLCipher
+## SQLCipher ([to](https://github.com/jackfr0st13/gorm-sqlite-cipher))
 
 ```go
 
