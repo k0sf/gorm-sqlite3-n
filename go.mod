@@ -1,4 +1,4 @@
-module gorm-sqlite3-n
+module github.com/YGoldking/gorm-sqlite3-n
 
 go 1.18
 
