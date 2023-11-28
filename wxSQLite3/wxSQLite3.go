@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	_ "github.com/YGoldking/gorm-sqlite3-n/go-wxsqlite3"
+	_ "github.com/k0sf/gorm-sqlite3-n/go-wxsqlite3"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
 	"gorm.io/gorm/clause"
