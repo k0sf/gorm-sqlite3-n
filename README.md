@@ -6,7 +6,7 @@ SQLCipher、wxSQLite3
 ## Install
 
 ```shell
-go get github.com/k0sf/gorm-sqlite3-n
+go get -u github.com/k0sf/gorm-sqlite3-n@main
 ```
 
 
