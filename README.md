@@ -20,7 +20,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/YGoldking/gorm-sqlite3-n/wxSQLite3"
+	"github.com/k0sf/gorm-sqlite3-n/wxSQLite3"
 	"gorm.io/gorm"
 	"log"
 	"net/url"
@@ -59,7 +59,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/YGoldking/gorm-sqlite3-n/SQLCipher"
+	"github.com/k0sf/gorm-sqlite3-n/SQLCipher"
 	"gorm.io/gorm"
 	"log"
 	"net/url"
