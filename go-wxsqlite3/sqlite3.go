@@ -961,6 +961,62 @@ func (c *SQLiteConn) begin(ctx context.Context) (driver.Tx, error) {
 	return &SQLiteTx{c}, nil
 }
 
+type Cpp struct {
+	db *C.sqlite3
+}
+
+func (c *Cpp) Open(dsn, dbKey string) error {
+	mutex := C.int(C.SQLITE_OPEN_FULLMUTEX)
+	var db *C.sqlite3
+	name := C.CString(dsn)
+	defer C.free(unsafe.Pointer(name))
+	var vfs *C.char
+	//if vfsName != "" {
+	//	vfs = C.CString(vfsName)
+	//	defer C.free(unsafe.Pointer(vfs))
+	//}
+	rv := C._sqlite3_open_v2(name, &db,
+		mutex|C.SQLITE_OPEN_READWRITE|C.SQLITE_OPEN_CREATE,
+		vfs)
+	if rv != 0 {
+		// Save off the error _before_ closing the database.
+		// This is safe even if db is nil.
+		err := lastError(db)
+		if db != nil {
+			C.sqlite3_close_v2(db)
+		}
+		return err
+	}
+	if db == nil {
+		return errors.New("sqlite succeeded without returning a database")
+	}
+
+	if dbKey != "" { // 配置了密钥
+		key := C.CString(dbKey)
+		defer C.free(unsafe.Pointer(key))
+		rv := C.sqlite3_key(db, unsafe.Pointer(key), -1)
+		if rv != C.SQLITE_OK {
+			return lastError(db)
+		}
+	}
+	c.db = db
+	return nil
+}
+
+func (c *Cpp) Close() {
+	C.sqlite3_close_v2(c.db)
+}
+
+func (c *Cpp) ReKey(nkey string) error {
+	key := C.CString(nkey)
+	defer C.free(unsafe.Pointer(key))
+	rv := C.sqlite3_rekey(c.db, unsafe.Pointer(key), -1)
+	if rv != C.SQLITE_OK {
+		return lastError(c.db)
+	}
+	return nil
+}
+
 // Open database and return a new connection.
 //
 // A pragma can take either zero or one argument.

@@ -353,6 +353,11 @@ typedef sqlite_uint64 sqlite3_uint64;
 SQLITE_API int sqlite3_close(sqlite3*);
 SQLITE_API int sqlite3_close_v2(sqlite3*);
 
+SQLITE_API int sqlite3_key(sqlite3* db, const void* pKey, int nKey);
+SQLITE_API int sqlite3_key_v2(sqlite3* db, const char* zDbName, const void* pKey, int nKey);
+
+SQLITE_API int sqlite3_rekey(sqlite3* db, const void* pKey, int nKey);
+SQLITE_API int sqlite3_rekey_v2(sqlite3* db, const char* zDbName, const void* pKey, int nKey);
 /*
 ** The type for a callback function.
 ** This is legacy and deprecated.  It is included for historical

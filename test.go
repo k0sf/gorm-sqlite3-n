@@ -14,7 +14,7 @@ func main() {
 
 	key := url.QueryEscape("pass")
 	path := "./dbtest.db"
-	//path = "./5"
+	path = "./5"
 	dsn := fmt.Sprintf("%s?_db_key=%s", path, key)
 
 	db, err = gorm.Open(wxSQLite3.Open(dsn), &gorm.Config{})

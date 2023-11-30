@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	_ "github.com/k0sf/gorm-sqlite3-n/go-wxsqlite3"
+	sqlite3 "github.com/k0sf/gorm-sqlite3-n/go-wxsqlite3"
 	"gorm.io/gorm"
 	"gorm.io/gorm/callbacks"
 	"gorm.io/gorm/clause"
@@ -15,6 +16,22 @@ import (
 	"strconv"
 	"strings"
 )
+
+// ResetDBKey Reset database password
+func ResetDBKey(dbName string, oldKey string, newKey string) error {
+	sr := sqlite3.Cpp{}
+	err := sr.Open(dbName, oldKey)
+	if err != nil {
+		return errors.New(fmt.Sprintf("open err: %v", err))
+	}
+
+	err = sr.ReKey(newKey)
+	if err != nil {
+		return errors.New(fmt.Sprintf("rekey err: %v", err))
+	}
+	sr.Close()
+	return nil
+}
 
 // wxSqlite3 默认aes128加密
 
