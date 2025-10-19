@@ -4,6 +4,10 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
+
 	_ "github.com/k0sf/gorm-sqlite3-n/go-wxsqlite3"
 	sqlite3 "github.com/k0sf/gorm-sqlite3-n/go-wxsqlite3"
 	"gorm.io/gorm"
@@ -12,9 +16,6 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/migrator"
 	"gorm.io/gorm/schema"
-	"regexp"
-	"strconv"
-	"strings"
 )
 
 // ResetDBKey Reset database password
@@ -303,7 +304,7 @@ func (m Migrator) AlterColumn(value interface{}, name string) error {
 							fmt.Sprintf("ALTER TABLE `%v` RENAME TO `%v`", newTableName, stmt.Table),
 						}
 						for _, query := range queries {
-							if err := tx.Exec(query, m.FullDataTypeOf(field)).Error; err != nil {
+							if err := tx.Exec(query, m.FullDataTypeOf(field).SQL).Error; err != nil {
 								return err
 							}
 						}
