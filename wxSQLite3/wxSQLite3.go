@@ -821,9 +821,12 @@ func (m Migrator) AlterColumn(value interface{}, name string) error {
 				return fmt.Errorf("failed to compile table regex: %w", err)
 			}
 
-			// Replace table name and field definition
+			// Get the full data type definition
+			dataType := m.FullDataTypeOf(field).SQL
+
+			// Replace table name and field definition with actual data type (not placeholder)
 			createSQL = tableReg.ReplaceAllString(createSQL, fmt.Sprintf(" `%s` ", newTableName))
-			createSQL = fieldReg.ReplaceAllString(createSQL, fmt.Sprintf("`%s` ?,", field.DBName))
+			createSQL = fieldReg.ReplaceAllString(createSQL, fmt.Sprintf("`%s` %s,", field.DBName, dataType))
 
 			// Get all columns
 			var columns []string
@@ -847,7 +850,7 @@ func (m Migrator) AlterColumn(value interface{}, name string) error {
 				}
 
 				for _, query := range queries {
-					if err := tx.Exec(query, m.FullDataTypeOf(field).SQL).Error; err != nil {
+					if err := tx.Exec(query).Error; err != nil {
 						return fmt.Errorf("failed to execute query %q: %w", query, err)
 					}
 				}
